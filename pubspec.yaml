@@ -1,0 +1,40 @@
+name: alquds_debting
+description: A new Flutter project.
+
+publish_to: 'none' 
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.5 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^1.0.2
+  http: ^0.13.6
+  easy_autocomplete: ^1.6.0
+  intl: ^0.19.0
+  device_info_plus: ^3.2.4
+  
+  shared_preferences: ^2.0.8
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+flutter:
+
+ 
+  uses-material-design: true
+
+flutter_icons:
+  image_path: "icon/a.ico" 
+  android: true
+  ios: true
