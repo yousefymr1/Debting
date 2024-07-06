@@ -18,7 +18,7 @@ class FirstPage extends StatelessWidget {
       backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
  centerTitle: true,
         title:  const Text('القدس لمتابعة الديون' ,textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 20,color: Colors.white,)),
+        style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -28,6 +28,7 @@ class FirstPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               RoundedButton(
+                 icon: Icons.arrow_back,
                   title: 'إضافة زبون',
                   colour: Color.fromRGBO(58, 66, 86, 1.0),
                   onPressed: () async {
@@ -36,6 +37,7 @@ class FirstPage extends StatelessWidget {
                        Navigator.pushNamed(context, AddCustomer.id);
                   }),
               RoundedButton(
+                  icon: Icons.arrow_back,
                   title: 'تسجيل دين',
                   colour: Color.fromRGBO(58, 66, 86, 1.0),
                   onPressed: () {
@@ -44,6 +46,7 @@ class FirstPage extends StatelessWidget {
                                     },);
                   }),
                   RoundedButton(
+                      icon: Icons.arrow_back,
                   title: 'تسجيل دفعة',
                   colour: Color.fromRGBO(58, 66, 86, 1.0),
                   onPressed: () {
@@ -52,18 +55,21 @@ class FirstPage extends StatelessWidget {
                                     },);
                   }),
              RoundedButton(
+                icon: Icons.arrow_back,
                   title: 'كشف حساب',
                   colour: Color.fromRGBO(58, 66, 86, 1.0),
                   onPressed: () {
                         Navigator.pushNamed(context, KashfHesab.id);
                   }),
                     RoundedButton(
+                        icon: Icons.arrow_back,
                   title: 'مجمل الذمم',
                   colour: Color.fromRGBO(58, 66, 86, 1.0),
                   onPressed: () {
                     Navigator.pushNamed(context, ZemamReport.id);
                   }),
                    RoundedButton(
+                      icon: Icons.arrow_back,
                   title: 'مجمل الديون',
                   colour: Color.fromRGBO(58, 66, 86, 1.0),
                   onPressed: () {
@@ -72,6 +78,7 @@ class FirstPage extends StatelessWidget {
                                     },);
                   }),
                    RoundedButton(
+                      icon: Icons.arrow_back,
                   title: 'مجمل الدفعات',
                   colour: Color.fromRGBO(58, 66, 86, 1.0),
                   onPressed: () {

@@ -107,7 +107,7 @@ return ;
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
           centerTitle: true,
           title: const Text('كشف حساب', textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 20,color: Colors.white,)),
+        style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold)),
         ),
         body: SingleChildScrollView(
           child:  Directionality(
@@ -131,40 +131,59 @@ return ;
                     prefixIcon: const Icon(Icons.person)),
               ),
             ),
-                  EasyAutocomplete(
-              
-                controller: c_name_controller,
-                
-                suggestions: _loadedcust2,
-                onChanged: (value) => 
-                  { 
-                  if(_loadedcust.isEmpty)
-                  _fetchCust(),
-                print('onChanged value: $value'),
-                },
-                onSubmitted: (value) =>
-                {                
-                  print('onSubmitted value: $value'),
-                   for (var i = 0; i < _loadedcust.length; i++) {
-       if( _loadedcust[i]['c_name'] == value)
-                {  
-                   c_id.text =  _loadedcust[i]['id'] ,
-      i = _loadedcust.length,
-                }
-        }
-                },
-                ),
-                  RoundedButton(
-                    title: 'بحث',
-                    colour: Color.fromRGBO(58, 66, 86, 1.0),
-                    onPressed: () {
-                      _fetchData();
-                    }),
+                  Row(
+                    children: [
+                       Expanded(
+                flex: 1,
+                child: Text('اسم الزبون :' ,textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.black,),),
+              ),
+                      Expanded(
+                        flex: 3,
+                        child: EasyAutocomplete(
+                                      
+                                        controller: c_name_controller,
+                                        
+                                        suggestions: _loadedcust2,
+                                        onChanged: (value) => 
+                        { 
+                        if(_loadedcust.isEmpty)
+                        _fetchCust(),
+                                        print('onChanged value: $value'),
+                                        },
+                                        onSubmitted: (value) =>
+                                        {                
+                        print('onSubmitted value: $value'),
+                         for (var i = 0; i < _loadedcust.length; i++) {
+                               if( _loadedcust[i]['c_name'] == value)
+                                        {  
+                         c_id.text =  _loadedcust[i]['id'] ,
+                              i = _loadedcust.length,
+                                        }
+                                }
+                                        },
+                                        ),
+                      ),
+                    ],
+                  ),
+                 Directionality(
+        textDirection: TextDirection.ltr,
+            child: 
+                      RoundedButton(
+                         icon: Icons.search,
+                        title: 'بحث',
+                        colour: Color.fromRGBO(58, 66, 86, 1.0),
+                        onPressed: () {
+                          _fetchData();
+                        }),
+                  
+                  ),
                     Row(
                       children: [
-                        Text(' الرصيد :', textAlign: TextAlign.right,style: TextStyle(fontSize: 20),),
+                        Text(' الرصيد :', textAlign: TextAlign.right,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                         SizedBox(width: 20,),
-                           Text(  blnc.toString(), textAlign: TextAlign.right),
+                           Text(  blnc.toString(), textAlign: TextAlign.right,
+                           style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
                       ],
                     ),
                 Padding(

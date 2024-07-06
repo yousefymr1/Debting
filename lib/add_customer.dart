@@ -59,7 +59,7 @@ class _AddCustomerState extends State<AddCustomer> {
       backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
  centerTitle: true,
         title:  const Text('القدس لمتابعة الديون' ,textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 20,color: Colors.white,)),
+        style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold)),
       ),
    
       body: Padding(
@@ -92,6 +92,7 @@ class _AddCustomerState extends State<AddCustomer> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        SizedBox( height:  40,),
         TextField(
             controller:  _controller1,
           textAlign: TextAlign.right,
@@ -105,7 +106,7 @@ class _AddCustomerState extends State<AddCustomer> {
               filled: true,
               suffixIcon: const Icon(Icons.person)),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 20),
         TextField(
             controller:  _controller2,
            textAlign: TextAlign.right,
@@ -120,7 +121,7 @@ class _AddCustomerState extends State<AddCustomer> {
           ),
      
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 40),
         ElevatedButton(
           onPressed: () {
             if(_controller1.text.trim() != "") {
@@ -158,7 +159,7 @@ class _AddCustomerState extends State<AddCustomer> {
           ),
           child: const Text(
             "إضافة",
-            style: TextStyle(fontSize: 20,color: Colors.white,),
+            style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.white,),
           ),
         )
       ],

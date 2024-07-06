@@ -73,7 +73,7 @@ class _EditCustomerState extends State<EditCustomer> {
       backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
  centerTitle: true,
         title:  const Text('القدس لمتابعة الديون' ,textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 20,color: Colors.white,)),
+        style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold)),
       ),
    
       body: Padding(

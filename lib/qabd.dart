@@ -34,7 +34,9 @@ String? company_id = prefs.getString("company_id");
 
   c_id.text = "";
   c_name_controller.text = "";
-  a_date.text = DateTime.now().toString();
+  String sDate=   "${DateTime.now().year.toString()}-${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.now().day.toString().padLeft(2,'0')}";
+   
+  a_date.text = sDate;
   notes.text = "";
   total.text = "0";
   if (response.statusCode == 201 || response.statusCode == 200) {
@@ -138,7 +140,7 @@ return ;
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
           centerTitle: true,
           title: const Text('القدس لمتابعة الديون', textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 20,color: Colors.white,)),
+        style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold)),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -167,6 +169,7 @@ return ;
           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
         //Text("Enter your credential to login"),
+        SizedBox(height: 20,)
       ],
     );
   }
@@ -194,79 +197,124 @@ return ;
                   prefixIcon: const Icon(Icons.person)),
             ),
           ),
-          EasyAutocomplete(
-            
-              controller: c_name_controller,
-              
-              suggestions: _loadedPhotos2,
-              onChanged: (value) => 
-                { 
-                if(_loadedPhotos2.isEmpty)
-                _fetchData(),
-              print('onChanged value: $value'),
-              },
-              onSubmitted: (value) =>
-              {                
-                print('onSubmitted value: $value'),
-                 for (var i = 0; i < _loadedPhotos2.length; i++) {
-     if( _loadedPhotos[i]['c_name'] == value)
-              {  
-                 c_id.text =  _loadedPhotos[i]['id'] ,
-i = _loadedPhotos2.length,
-              }
-      }
-              },
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Text('اسم الزبون :' ,textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.black,),),
               ),
+              Expanded(
+                flex: 2,
+                child: EasyAutocomplete(
+                       
+                    controller: c_name_controller,
+                    
+                    suggestions: _loadedPhotos2,
+                    onChanged: (value) => 
+                      { 
+                      if(_loadedPhotos2.isEmpty)
+                      _fetchData(),
+                    print('onChanged value: $value'),
+                    },
+                    onSubmitted: (value) =>
+                    {                
+                      print('onSubmitted value: $value'),
+                       for (var i = 0; i < _loadedPhotos2.length; i++) {
+                     if( _loadedPhotos[i]['c_name'] == value)
+                    {  
+                       c_id.text =  _loadedPhotos[i]['id'] ,
+                i = _loadedPhotos2.length,
+                    }
+                      }
+                    },
+                    ),
+              ),
+            ],
+          ),
          
       
-          const SizedBox(height: 10),
-          TextFormField(
-            onTap: () {
-              setState(() {
-                //print(showDateTimePicker(context: context).toString());
-                showDateTimePicker(context: context).toString();
-              });
-            },
-            controller: a_date,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-                hintText: "التاريخ",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: BorderSide.none),
-                fillColor: Colors.purple.withOpacity(0.1),
-                filled: true,
-                prefixIcon: const Icon(Icons.date_range)),
+          const SizedBox(height: 30),
+          Row(
+            children: [
+              Expanded(  flex: 1,
+                child: Text('التاريخ :' ,textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.black,),),
+              ),
+              Expanded(
+                flex: 3,
+                child: TextFormField(
+                  onTap: () {
+                    setState(() {
+                      //print(showDateTimePicker(context: context).toString());
+                      showDateTimePicker(context: context).toString();
+                    });
+                  },
+                  controller: a_date,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                      hintText: "التاريخ",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide: BorderSide.none),
+                      fillColor: Colors.purple.withOpacity(0.1),
+                      filled: true,
+                      prefixIcon: const Icon(Icons.date_range)),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: total,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-                hintText: "المبلغ",
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: BorderSide.none),
-                fillColor: Colors.purple.withOpacity(0.1),
-                filled: true,
-                prefixIcon: const Icon(Icons.money)),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+                Expanded(  flex: 1,
+                child: Text('المبلغ :' ,textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.black,),),
+              ),
+              Expanded(
+                flex: 3,
+                child: TextField(
+                  controller: total,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                      hintText: "المبلغ",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide: BorderSide.none),
+                      fillColor: Colors.purple.withOpacity(0.1),
+                      filled: true,
+                      prefixIcon: const Icon(Icons.money)),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: notes,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-              hintText: "الملاحظات",
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18),
-                  borderSide: BorderSide.none),
-              fillColor: Colors.purple.withOpacity(0.1),
-              filled: true,
-              prefixIcon: const Icon(Icons.phone),
-            ),
-            obscureText: true,
+          const SizedBox(height: 20),
+          Row(
+            children: [
+                Expanded(  flex: 1,
+                child: Text('الملاحظات ' ,textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.black,),),
+              ),
+              Expanded(
+                flex:  3,
+                child: TextField(
+                  controller: notes,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    hintText: "الملاحظات",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                        borderSide: BorderSide.none),
+                    fillColor: Colors.purple.withOpacity(0.1),
+                    filled: true,
+                    prefixIcon: const Icon(Icons.note),
+                  ),
+                 // obscureText: true,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 40),
           ElevatedButton(
             onPressed: () {
               if (c_id.text.trim() != "" &&
@@ -309,7 +357,7 @@ i = _loadedPhotos2.length,
             ),
             child: const Text(
               "إضافة",
-              style: TextStyle(fontSize: 20,color: Colors.white,),
+              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25,color: Colors.white,),
             ),
           )
         ],

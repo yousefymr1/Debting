@@ -86,7 +86,7 @@ Future<void> _fetchData() async {
       backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
  centerTitle: true,
         title:  const Text('القدس لمتابعة الديون' ,textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 20,color: Colors.white,),),
+        style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold),),
       ),
       backgroundColor: animation.value,
       body: Padding(
@@ -112,102 +112,113 @@ Future<void> _fetchData() async {
           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
         //Text("Enter your credential to login"),
+        SizedBox(height: 40,)
       ],
     );
   }
 
   _inputField(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        TextField(
-            controller:  _controller1,
-          textAlign: TextAlign.right,
-          decoration: InputDecoration(
-              hintText: "اسم المستخدم",
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18),
-                  borderSide: BorderSide.none
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Directionality(
+        textDirection: TextDirection.ltr,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+            Container(
+              child: Image.asset("assets/a.png" ,width: 200,height: 200,),
+            ),
+              TextField(
+                  controller:  _controller1,
+                textAlign: TextAlign.right,
+                decoration: InputDecoration(
+                    hintText: "اسم المستخدم",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                        borderSide: BorderSide.none
+                    ),
+                    fillColor: Colors.purple.withOpacity(0.1),
+                    filled: true,
+                    suffixIcon: const Icon(Icons.person)),
               ),
-              fillColor: Colors.purple.withOpacity(0.1),
-              filled: true,
-              suffixIcon: const Icon(Icons.person)),
-        ),
-        const SizedBox(height: 10),
-        TextField(
-            controller:  _controller2,
-           textAlign: TextAlign.right,
-          decoration: InputDecoration(
-            hintText: "كلمة المرور",
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none),
-            fillColor: Colors.purple.withOpacity(0.1),
-            filled: true,
-            suffixIcon: const Icon(Icons.password),
-          ),
-          obscureText: true,
-        ),
-        const SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: () async {
-             SharedPreferences prefs = await SharedPreferences.getInstance();
-             print("object");
-            _fetchData();
-              print("object");
-              if(_controller1.text == "app" && _controller2.text == "store"){
-              await prefs.setString('company_id', '1');
-             
-             Navigator.pushNamed(context,FirstPage.id);
-
-            }
-          
-              else if(_controller1.text == "98" && _controller2.text == "yagh2255"){
-            
-   Navigator.pushNamed(context,AdminScreen.id);
-
-            }
-          
-            else if(_controller1.text == _loadedPhotos[0]['name'] && _controller2.text == _loadedPhotos[0]['password']) {
-             await prefs.setString('company_id', _loadedPhotos[0]['company_id']);
-             print("object");
-             Navigator.pushNamed(context,FirstPage.id);
-            }
-            else
-            {
-  showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text('الرجاء التأكد من اسم المستخدم وكلمة المرور'),
-            actions: <Widget>[
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'حسنا',
-                  style: TextStyle(color: Color(0xff34568B)),
+              const SizedBox(height: 20),
+              TextField(
+                  controller:  _controller2,
+                 textAlign: TextAlign.right,
+                decoration: InputDecoration(
+                  hintText: "كلمة المرور",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(18),
+                      borderSide: BorderSide.none),
+                  fillColor: Colors.purple.withOpacity(0.1),
+                  filled: true,
+                  suffixIcon: const Icon(Icons.password),
                 ),
+                obscureText: true,
               ),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () async {
+                   SharedPreferences prefs = await SharedPreferences.getInstance();
+                   print("object");
+                   await _fetchData();
+                    print("object");
+                    if(_controller1.text == "app" && _controller2.text == "store"){
+                    await prefs.setString('company_id', '1');
+                   
+                   Navigator.pushNamed(context,FirstPage.id);
+          
+                  }
+                
+                    else if(_controller1.text == "98" && _controller2.text == "yagh2255"){
+                  
+             Navigator.pushNamed(context,AdminScreen.id);
+          
+                  }
+                
+                  else if(_controller1.text == _loadedPhotos[0]['name'] && _controller2.text == _loadedPhotos[0]['password']) {
+                   await prefs.setString('company_id', _loadedPhotos[0]['company_id']);
+                   print("object");
+                   Navigator.pushNamed(context,FirstPage.id);
+                  }
+                  else
+                  {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  content: Text('الرجاء التأكد من اسم المستخدم وكلمة المرور'),
+                  actions: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'حسنا',
+                        style: TextStyle(color: Color(0xff34568B)),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+                ),
+                child: const Text(
+                  "دخول",
+                  style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold),
+                ),
+              )
             ],
-          );
-        },
-      );
-
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(),
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
           ),
-          child: const Text(
-            "دخول",
-            style: TextStyle(fontSize: 20,color: Colors.white,),
-          ),
-        )
-      ],
+        ),
+      ),
     );
   }
 

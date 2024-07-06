@@ -185,7 +185,7 @@ return ;
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
           centerTitle: true,
           title: const Text('القدس لمتابعة الديون', textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 20,color: Colors.white,)),
+        style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold)),
         ),
         body: SingleChildScrollView(
           
@@ -269,17 +269,21 @@ return ;
                         ],
                       ),
                     ),
-           RoundedButton(
+           Directionality(
+        textDirection: TextDirection.ltr,
+            child:  RoundedButton(
+             icon: Icons.search,
                     title: 'بحث',
                     colour: Color.fromRGBO(58, 66, 86, 1.0),
                     onPressed: () {
                       _runFilter();
                     }),
+           ),
                      Row(
                       children: [
-                        Text(' المجموع :', textAlign: TextAlign.right,style: TextStyle(fontSize: 20),),
-                        SizedBox(width: 20,),
-                           Text(  blnc.toString(), textAlign: TextAlign.right),
+                       Text(' المجموع :', textAlign: TextAlign.right,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                      SizedBox(width: 20,),
+                         Text(  blnc.toString(), textAlign: TextAlign.right,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
                       ],
                     ),
                 Padding(
