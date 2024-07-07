@@ -1,0 +1,85 @@
+Hello,
+
+Thank you for your resubmission. Upon further review, we identified additional issues that need your attention. See below for more information.
+
+If you have any questions, we are here to help. Reply to this message in App Store Connect and let us know.
+
+
+Review Environment
+
+Submission ID: eb4d70c3-e4f2-45cf-962a-89e5dd7477ae
+Review date: July 07, 2024
+Version reviewed: 1.0.1
+
+Guideline 2.1 - Performance - App Completeness
+
+
+Your app or its metadata does not appear to include complete and final content. 
+
+- Specifically, your app description does not have enough information about the app's features and functionality.
+
+App Store users expect the apps they download to be ready for public use. Apps on the store shouldn't include placeholder or incomplete content or information.
+
+Next Steps
+
+To resolve this issue, please revise your app and metadata so that all of its content is complete and final.
+
+For example:
+
+- Your app binary or metadata should not include "lorem ipsum" text. 
+- App metadata should not include placeholder screenshots, such as "screenshot coming soon."
+- Provide an engaging app description that highlights the features and functionality of your app.
+
+Resources 
+
+Learn how to create an engaging App Store product page.
+
+
+Guideline 2.1 - Information Needed
+
+
+We’re looking forward to reviewing your app, but we were unable to sign in with the following demo account credentials you provided in App Store Connect:
+
+User name: 0569380363
+Password: 100200300
+
+To avoid delays in App Review, it is essential to provide the App Review team with access to your app's full features and functionality with every submission.
+
+Next Steps
+
+Please provide the username and password for a valid demo account on the App Review page of App Store Connect that provides full access to your app's features and functionality or include a demonstration mode that shows all of the features and functionality available in your app. Note that we cannot use a demo video showing your app in use to continue the review.
+
+Resources
+
+- Watch a video from App Review with tips for preventing common rejections. 
+- Learn how to share information with App Review when submitting your app for review.
+
+Guideline 2.3.3 - Performance - Accurate Metadata
+
+2.3.3 Screenshots should show the app in use, and not merely the title art, login page, or splash screen. They may also include text and image overlays (e.g. to demonstrate input mechanisms, such as an animated touch point or Apple Pencil) and show extended functionality on device, such as Touch Bar.
+
+Issue Description
+
+Some or all of the provided screenshots do not sufficiently show the app in use. Screenshots should highlight the app's core concept to help users understand the app’s functionality and value. 
+
+Follow these requirements when adding or updating screenshots:
+
+- Marketing or promotional materials that do not reflect the UI of the app are not appropriate for screenshots.
+- The majority of the screenshots should highlight the app's main features and functionality.
+- Confirm that the app looks and behaves identically in all languages and on all supported devices.
+- Make sure that the screenshots show the app in use on the correct device. For example, iPhone screenshots should be taken on iPhone, not on iPad.
+
+Next Steps
+
+- The iPad Pro (2nd Gen) and 13-inch iPad screenshots show an iPhone image that has been modified or stretched to appear to be an iPad image and do not show the actual app in use in the majority of the screenshots. Upload new screenshots that accurately reflect the app in use on each of the supported devices.
+
+Resources
+
+- To learn more about creating great screenshots for the App Store, see Creating your product page.
+- To learn more about uploading screenshots, see App Store Connect Help.
+
+Support
+
+- Reply to this message in your preferred language if you need assistance. If you need additional support, use the Contact Us module.
+- Consult with fellow developers and Apple engineers on the Apple Developer Forums.
+- Help improve the review process or identify a need for clarity in our policies by suggesting guideline changes.
