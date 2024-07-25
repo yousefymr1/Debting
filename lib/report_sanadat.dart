@@ -124,13 +124,14 @@ Future<void> _runFilter() async {
      var parsedDate2 = DateTime.parse(end_date.text);
 for(var item in _loadedPhotos){
   print( _loadedPhotos.length);
-
+if(item["a_date"].toString() != "0000-00-00 00:00:00"){
    var itemDate = DateTime.parse(item["a_date"].toString());
  DateTime itemDate2 =DateTime.parse("${itemDate.year.toString()}-${itemDate.month.toString().padLeft(2,'0')}-${itemDate.day.toString().padLeft(2,'0')}");
     
    if(itemDate2.compareTo(parsedDate) >= 0 && itemDate2.compareTo(parsedDate2) <= 0) {
     
     results.add(item);
+   }
     print( "3");
    }
  }
@@ -302,8 +303,8 @@ return ;
                                       child: Container(
                                         decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
-                                              Color.fromRGBO(65, 108, 216, 1),
-                                              Color.fromRGBO(58, 66, 86, 1.0),
+                                            Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                             ]),
                                             border:
                                                 Border.all(color: Color(0xffD6D3D3))),
@@ -323,8 +324,8 @@ return ;
                                       child: Container(
                                         decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
-                                               Color.fromRGBO(65, 108, 216, 1),
-                                              Color.fromRGBO(58, 66, 86, 1.0),
+                                         Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                             ]),
                                             border:
                                                 Border.all(color: Color(0xffD6D3D3))),
@@ -344,8 +345,8 @@ return ;
                                       child: Container(
                                         decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
-                                                 Color.fromRGBO(65, 108, 216, 1),
-                                              Color.fromRGBO(58, 66, 86, 1.0),
+                                         Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                             ]),
                                             border:
                                                 Border.all(color: Color(0xffD6D3D3))),
@@ -365,8 +366,8 @@ return ;
                                       child: Container(
                                         decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
-                                                Color.fromRGBO(65, 108, 216, 1),
-                                              Color.fromRGBO(58, 66, 86, 1.0),
+                                             Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                             ]),
                                             border:
                                                 Border.all(color: Color(0xffD6D3D3))),
@@ -386,8 +387,8 @@ return ;
                                       child: Container(
                                         decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
-                                                 Color.fromRGBO(65, 108, 216, 1),
-                                              Color.fromRGBO(58, 66, 86, 1.0),
+                                          Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                             ]),
                                             border:
                                                 Border.all(color: Color(0xffD6D3D3))),
@@ -407,8 +408,8 @@ return ;
                                       child: Container(
                                         decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
-                                               Color.fromRGBO(65, 108, 216, 1),
-                                              Color.fromRGBO(58, 66, 86, 1.0),
+                                          Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                             ]),
                                             border:
                                                 Border.all(color: Color(0xffD6D3D3))),
@@ -428,8 +429,8 @@ return ;
                                     child: Container(
                                       decoration: BoxDecoration(
                                           gradient: LinearGradient(colors: [
-                                             Color.fromRGBO(65, 108, 216, 1),
-                                            Color.fromRGBO(58, 66, 86, 1.0),
+                                         Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                           ]),
                                           border:
                                               Border.all(color: Color(0xffD6D3D3))),

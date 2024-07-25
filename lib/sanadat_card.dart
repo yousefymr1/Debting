@@ -162,12 +162,12 @@ Future deletesanad(String id) async {
                     flex: 1,
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Colors.white,
                           border: Border.all(color: Color(0xffD6D3D3))),
                       child: Center(
                         child:    IconButton(
-                               iconSize: 20,
-                             icon: const Icon(Icons.delete),
+                               iconSize: 25,
+                             icon: const Icon(Icons.delete) , color: Colors.red,
                                         
                                         onPressed: () {
                                           deletesanad(

@@ -62,16 +62,18 @@ class _AddCustomerState extends State<AddCustomer> {
         style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold)),
       ),
    
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-             _header(context),
-           _inputField(context),
-          
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+               _header(context),
+             _inputField(context),
+            
+            ],
+          ),
         ),
       ),
     );
@@ -89,80 +91,84 @@ class _AddCustomerState extends State<AddCustomer> {
   }
 
   _inputField(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox( height:  40,),
-        TextField(
-            controller:  _controller1,
-          textAlign: TextAlign.right,
-          decoration: InputDecoration(
-              hintText: "اسم الزبون",
+    return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.0),
+      child: Column(
+         mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox( height:  40,),
+          TextField(
+              controller:  _controller1,
+            textAlign: TextAlign.right,
+            decoration: InputDecoration(
+                hintText: "اسم الزبون",
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
+                    borderSide: BorderSide.none
+                ),
+                fillColor: Colors.purple.withOpacity(0.1),
+                filled: true,
+                suffixIcon: const Icon(Icons.person)),
+          ),
+          const SizedBox(height: 20),
+          TextField(
+              controller:  _controller2,
+             textAlign: TextAlign.right,
+            decoration: InputDecoration(
+              hintText: "رقم الهاتف",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(18),
-                  borderSide: BorderSide.none
-              ),
+                  borderSide: BorderSide.none),
               fillColor: Colors.purple.withOpacity(0.1),
               filled: true,
-              suffixIcon: const Icon(Icons.person)),
-        ),
-        const SizedBox(height: 20),
-        TextField(
-            controller:  _controller2,
-           textAlign: TextAlign.right,
-          decoration: InputDecoration(
-            hintText: "رقم الهاتف",
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
-                borderSide: BorderSide.none),
-            fillColor: Colors.purple.withOpacity(0.1),
-            filled: true,
-            suffixIcon: const Icon(Icons.phone),
+              suffixIcon: const Icon(Icons.phone),
+            ),
+       
           ),
-     
-        ),
-        const SizedBox(height: 40),
-        ElevatedButton(
-          onPressed: () {
-            if(_controller1.text.trim() != "") {
-           //  Navigator.pushNamed(context,FirstPage.id);
-           createCustomer( _controller1.text.trim() , _controller2.text.trim() );
-            }
-            else
-            {
-  showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text('الرجاء ادخال اسم الزبون'),
-            actions: <Widget>[
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'حسنا',
-                  style: TextStyle(color: Color(0xff34568B)),
+          const SizedBox(height: 40),
+          ElevatedButton(
+            onPressed: () {
+              if(_controller1.text.trim() != "") {
+             //  Navigator.pushNamed(context,FirstPage.id);
+             createCustomer( _controller1.text.trim() , _controller2.text.trim() );
+              }
+              else
+              {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Text('الرجاء ادخال اسم الزبون'),
+              actions: <Widget>[
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'حسنا',
+                    style: TextStyle(color: Color(0xff34568B)),
+                  ),
                 ),
-              ),
-            ],
-          );
-        },
-      );
-
-            }
+              ],
+            );
           },
-          style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(),
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-          ),
-          child: const Text(
-            "إضافة",
-            style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.white,),
-          ),
-        )
-      ],
+        );
+      
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const StadiumBorder(),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+            ),
+            child: const Text(
+              "إضافة",
+              style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.white,),
+            ),
+          )
+        ],
+      ),
     );
   }
 

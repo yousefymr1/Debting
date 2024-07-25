@@ -152,8 +152,8 @@ class _ZemamReportState extends State<ZemamReport> {
                           child: Container(
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [
-                                  Color.fromRGBO(65, 108, 216, 1),
-                                  Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                 ]),
                                 border: Border.all(color: Color(0xffD6D3D3))),
                             child: Center(
@@ -172,8 +172,8 @@ class _ZemamReportState extends State<ZemamReport> {
                           child: Container(
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [
-                                  Color.fromRGBO(65, 108, 216, 1),
-                                  Color.fromRGBO(58, 66, 86, 1.0),
+                                Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                 ]),
                                 border: Border.all(color: Color(0xffD6D3D3))),
                             child: Center(
@@ -192,8 +192,8 @@ class _ZemamReportState extends State<ZemamReport> {
                           child: Container(
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [
-                                  Color.fromRGBO(65, 108, 216, 1),
-                                  Color.fromRGBO(58, 66, 86, 1.0),
+                                 Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                 ]),
                                 border: Border.all(color: Color(0xffD6D3D3))),
                             child: Center(
@@ -212,8 +212,8 @@ class _ZemamReportState extends State<ZemamReport> {
                           child: Container(
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [
-                                  Color.fromRGBO(65, 108, 216, 1),
-                                  Color.fromRGBO(58, 66, 86, 1.0),
+                             Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                 ]),
                                 border: Border.all(color: Color(0xffD6D3D3))),
                             child: Center(
@@ -232,8 +232,8 @@ class _ZemamReportState extends State<ZemamReport> {
                           child: Container(
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [
-                                  Color.fromRGBO(65, 108, 216, 1),
-                                  Color.fromRGBO(58, 66, 86, 1.0),
+                             Color.fromRGBO(58, 66, 86, 1.0),
+                               Color.fromRGBO(58, 66, 86, 1.0),
                                 ]),
                                 border: Border.all(color: Color(0xffD6D3D3))),
                             child: Center(
