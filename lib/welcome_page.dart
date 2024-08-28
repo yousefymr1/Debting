@@ -56,7 +56,7 @@ Future<void> _fetchData() async {
     final HttpClientResponse response = await request.close();
 
     final String content = await response.transform(utf8.decoder).join();
-    final List data = json.decode(content);
+    final List data = json.decode(content) ?? [];
 
     setState(() {
       _loadedPhotos = data;
@@ -128,6 +128,7 @@ Future<void> _fetchData() async {
             Container(
               child: Image.asset("assets/a.png" ,width: 200,height: 200,),
             ),
+            const SizedBox(height: 20),
               TextField(
                   controller:  _controller1,
                 textAlign: TextAlign.right,
@@ -172,14 +173,26 @@ Future<void> _fetchData() async {
                 
                     else if(_controller1.text == "98" && _controller2.text == "yagh2255"){
                   
-             Navigator.pushNamed(context,AdminScreen.id);
+              Navigator.pushNamed(context, AdminScreen.id, arguments: {
+                                      'active': "1"
+                                    },);
           
                   }
-                
-                  else if(_controller1.text == _loadedPhotos[0]['name'] && _controller2.text == _loadedPhotos[0]['password']) {
+                  else if(_controller1.text == "100" && _controller2.text == "123456789"){
+                    Navigator.pushNamed(context, AdminScreen.id, arguments: {
+                                      'active': "0"
+                                    },);
+            
+          
+                  }
+                  else if(_loadedPhotos.isNotEmpty){
+                   if(_controller1.text == _loadedPhotos[0]['name'] && _controller2.text == _loadedPhotos[0]['password']) {
                    await prefs.setString('company_id', _loadedPhotos[0]['company_id']);
+                    await prefs.setString('company_name', _loadedPhotos[0]['company_name']);
+                     await prefs.setString('msg_link', _loadedPhotos[0]['msg_link']);
                    print("object");
                    Navigator.pushNamed(context,FirstPage.id);
+                  }
                   }
                   else
                   {

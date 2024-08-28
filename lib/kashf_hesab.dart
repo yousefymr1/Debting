@@ -11,6 +11,13 @@ final TextEditingController c_name_controller = TextEditingController();
 final TextEditingController c_id = TextEditingController();
 int fill = 0;
 double blnc = 0;
+final TextEditingController _controller = TextEditingController();
+
+  List _loadedcust = [];
+  List _loadedcust2 = [];
+ bool v = false;
+
+ var focusNode1 = FocusNode();
 class KashfHesab extends StatefulWidget {
   
     static const String id = 'kashf_hesab';
@@ -22,10 +29,36 @@ class KashfHesab extends StatefulWidget {
 
 class _KashfHesabState extends State<KashfHesab> {
 
+
 List _loadedPhotos = [];
  
+
+void _runFilter(String enteredKeyword) {
+    List results = [];
+    if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = _loadedcust;
+    } else {
+      results = _loadedcust
+          .where((user) =>
+              user["c_name"].contains(enteredKeyword))
+          .toList();
+         
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+
+    // Refresh the UI
+    setState(() {
+      _loadedcust2 = results;
+       print(enteredKeyword);
+          print(results);
+         
+    });
+   // setupAlertDialoadContainer(context);
+  }
   Future<void> _fetchData() async {
     var c_id2 = c_id.text;
+    if(c_id2 != ""){
       SharedPreferences prefs = await SharedPreferences.getInstance();
 String? company_id = prefs.getString("company_id");
     var apiUrl =
@@ -40,7 +73,7 @@ String? company_id = prefs.getString("company_id");
     final HttpClientResponse response = await request.close();
 
     final String content = await response.transform(utf8.decoder).join();
-    final List data = json.decode(content);
+    final List data = json.decode(content) ?? [];
 
     setState(() {
       _loadedPhotos = data;
@@ -48,10 +81,9 @@ String? company_id = prefs.getString("company_id");
      blnc = double.parse( _loadedPhotos[_loadedPhotos.length-1]['balance'].toString());
       print("_loadedPhotos");
     });
+    }
   }
 
-  List _loadedcust = [];
-  List<String> _loadedcust2 = [];
   Future<void> _fetchCust() async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
 String? company_id = prefs.getString("company_id");
@@ -67,15 +99,12 @@ String? company_id = prefs.getString("company_id");
     final HttpClientResponse response = await request.close();
 
     final String content = await response.transform(utf8.decoder).join();
-    final List data = json.decode(content);
+    final List data = json.decode(content) ?? [];
 
     setState(() {
       _loadedcust = data;
       print(_loadedcust);
-      for (var i = 0; i < _loadedcust.length; i++) {
-        print(_loadedcust[i]['c_name']);
-        _loadedcust2.add(_loadedcust[i]['c_name']);
-      }
+     _loadedcust2 = _loadedcust;
       print("_loadedcust");
     });
   }
@@ -85,7 +114,7 @@ String? company_id = prefs.getString("company_id");
   Widget build(BuildContext context) {
     
     if (fill == 0) {
-      _fetchData();
+    //  _fetchData();
          _fetchCust();
       fill = 1;
     }
@@ -132,40 +161,104 @@ return ;
               ),
             ),
                   Row(
-                    children: [
-                       Expanded(
-                flex: 1,
+            children: [
+              Expanded(  flex: 1,
                 child: Text('اسم الزبون :' ,textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.black,),),
               ),
-                      Expanded(
-                        flex: 3,
-                        child: EasyAutocomplete(
-                                      
-                                        controller: c_name_controller,
-                                        
-                                        suggestions: _loadedcust2,
-                                        onChanged: (value) => 
-                        { 
-                        if(_loadedcust.isEmpty)
-                        _fetchCust(),
-                                        print('onChanged value: $value'),
-                                        },
-                                        onSubmitted: (value) =>
-                                        {                
-                        print('onSubmitted value: $value'),
-                         for (var i = 0; i < _loadedcust.length; i++) {
-                               if( _loadedcust[i]['c_name'] == value)
-                                        {  
-                         c_id.text =  _loadedcust[i]['id'] ,
-                              i = _loadedcust.length,
-                                        }
-                                }
-                                        },
-                                        ),
-                      ),
-                    ],
+             Expanded(
+                flex:  3,
+                child: TextField(
+                  onTap: (){
+ setState(() {
+ 
+   _controller.text = "";
+   _runFilter("");
+     v =true;
+       focusNode1.requestFocus();
+ });
+
+                  },
+                  controller: c_name_controller,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    hintText: "اسم الزبون",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(18),
+                        borderSide: BorderSide.none),
+                    fillColor: Colors.purple.withOpacity(0.1),
+                    filled: true,
+                    prefixIcon: const Icon(Icons.person),
                   ),
+                 // obscureText: true,
+                ),
+              ),
+            ],
+          ),
+                    Visibility(
+                visible: v,
+            child: Container(
+            
+                height: 300.0, // Change as per your requirement
+                width: 300.0, // Change as per your requirement
+                child: Column(
+                  
+                children: [ 
+                    const SizedBox(height: 30),
+                  TextField(
+                      focusNode: focusNode1,
+                 controller: _controller,
+               autofocus: true,
+                 
+                onChanged: (value) => _runFilter(value),
+                decoration: const InputDecoration(
+                  
+                    labelText: 'بحث', suffixIcon: Icon(Icons.search)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+                  Expanded(
+                    child: _loadedcust.isEmpty
+                        ? Center(
+                            child: ElevatedButton(
+                              onPressed: (_fetchCust),
+                              child: const Text('loading...'),
+                            ),
+                          )
+                        // The ListView that displays photos
+                        : ListView.builder(
+                            itemCount: _loadedcust2.length,
+                            itemBuilder: (BuildContext ctx, index) {
+                              return Container(
+                                decoration:
+                                    BoxDecoration(border: Border(top: BorderSide())),
+                                child: ListTile(
+                                 
+                                  leading: Text(
+                                    
+                                    _loadedcust2[index]["id"],
+                                  ),
+                                 title: Text(_loadedcust2[index]['c_name']),
+                                  onTap: () {
+                                  c_name_controller.text =  _loadedcust2[index]["c_name"];
+                        
+                         c_id.text =  _loadedcust2[index]['id'] ;
+                        
+                  setState(() {
+                    v = false;
+                  });
+                                // Navigator.of(context).pop(false);
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                ],
+              )
+              ),
+          ),
                  Directionality(
         textDirection: TextDirection.ltr,
             child: 

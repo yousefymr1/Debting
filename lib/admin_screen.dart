@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 var Main_Color = Color.fromRGBO(58, 66, 86, 1.0);
-
+var active = "0";
 class AdminScreen extends StatefulWidget {
     static const String id = 'admin_screen';
   const AdminScreen({Key? key}) : super(key: key);
@@ -16,9 +16,16 @@ class AdminScreen extends StatefulWidget {
 }
 
 class _AdminScreenState extends State<AdminScreen> {
+  
   @override
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey();
   Widget build(BuildContext context) {
+final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+
+    //print(arguments['a_code']);
+    active = arguments['active'];
+
     return Container(
       color: Main_Color,
       child: SafeArea(
@@ -176,6 +183,77 @@ class _AdminScreenState extends State<AdminScreen> {
                 ),
               ),
             
+              Padding(
+                padding: const EdgeInsets.only(top: 20, right: 15, left: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "اسم الشركة",
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 15, left: 15, top: 5),
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  child: TextField(
+              
+                    controller: companyNAMEController,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xff34568B), width: 2.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 2.0, color: Color(0xffD6D3D3)),
+                      ),
+                      hintText: "اسم الشركة",
+                    ),
+                  ),
+                ),
+              ),
+            Padding(
+                padding: const EdgeInsets.only(top: 20, right: 15, left: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "الرابط",
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 15, left: 15, top: 5),
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  child: TextField(
+                  
+                    controller: msg_linkController,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xff34568B), width: 2.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 2.0, color: Color(0xffD6D3D3)),
+                      ),
+                      hintText: "الرابط",
+                    ),
+                  ),
+                ),
+              ),
+            
            
               Padding(
                 padding: const EdgeInsets.only(
@@ -188,7 +266,7 @@ class _AdminScreenState extends State<AdminScreen> {
                   color: Color.fromRGBO(58, 66, 86, 1.0),
                   textColor: Colors.white,
                   child: Text(
-                    "اضافه مستخدم",
+                    "اضافة مستخدم",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () {
@@ -219,7 +297,9 @@ class _AdminScreenState extends State<AdminScreen> {
   TextEditingController repasswordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController companyIDController = TextEditingController();
+   TextEditingController companyNAMEController = TextEditingController();
   TextEditingController salesmanIDController = TextEditingController();
+  TextEditingController msg_linkController = TextEditingController();
 
   send() async {
     if (companyIDController.text == '' ||
@@ -277,8 +357,10 @@ class _AdminScreenState extends State<AdminScreen> {
             'password': passwordController.text,
             'device_id': deviceId.toString(),
             'name': nameController.text,
-           
+               'company_name': companyNAMEController.text,
             'company_id': companyIDController.text,
+              'msg_link': msg_linkController.text,
+              'active': active,
             
           },
           headers: headers);
@@ -298,44 +380,6 @@ class _AdminScreenState extends State<AdminScreen> {
     }
   }
 
-  editUser() async {
-    String? deviceId = await _getId();
-    var url = 'https://aliexpress.ps/quds_laravel/api/delete_user/$deviceId';
-    var headers = {"Accept": "application/json"};
-    final response = await http.post(Uri.parse(url), headers: headers);
-
-    var data = jsonDecode(response.body);
-    if (data['status'] == 'true') {
-      Navigator.of(context, rootNavigator: true).pop();
-
-      var url = 'https://aliexpress.ps/quds_laravel/api/register';
-      var headers = {"Accept": "application/json"};
-      final response = await http.post(Uri.parse(url),
-          body: {
-            'password': passwordController.text,
-            'device_id': deviceId.toString(),
-            'name': nameController.text,
-            'just': orders ? "yes" : "no",
-            'company_id': companyIDController.text,
-            'salesman_id': salesmanIDController.text,
-          },
-          headers: headers);
-
-      var data = jsonDecode(response.body);
-      if (data['status'] == 'true') {
-        // Navigator.of(context, rootNavigator: true).pop();
-      //  Fluttertoast.showToast(msg: "تم تعديل المستخدم بنجاح");
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
-      } else {
-        Navigator.of(context, rootNavigator: true).pop();
-       // Fluttertoast.showToast(msg: "فشلت عمليه التعديل الرجاء المحاوله مجددا");
-      }
-    } else {
-      Navigator.of(context, rootNavigator: true).pop();
-     // Fluttertoast.showToast(msg: "فشلت عمليه التعديل الرجاء المحاوله مجددا");
-    }
-  }
 
   Future<String?> _getId() async {
     var deviceInfo = DeviceInfoPlugin();

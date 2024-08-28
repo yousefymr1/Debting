@@ -40,7 +40,7 @@ class _ZemamReportState extends State<ZemamReport> {
     final HttpClientResponse response = await request.close();
 
     final String content = await response.transform(utf8.decoder).join();
-    final List data = json.decode(content);
+    final List data = json.decode(content) ?? [];
 
     setState(() {
       _loadedPhotos = data;
