@@ -47,7 +47,7 @@ Future<String> createQabd(BuildContext context, String cName1, String cId1,
   a_date.text = sDate;
   notes.text = "";
   phone_controller.text = "";
-  total.text = "0";
+  total.text = "";
   if (response.statusCode == 201 || response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
@@ -66,6 +66,7 @@ Future<String> createQabd(BuildContext context, String cName1, String cId1,
 Future<bool> showAlertDialog(
     BuildContext context, String message, double total1, phone) async {
   // set up the buttons
+  String vString = total1.toInt().toString();
   Widget cancelButton = ElevatedButton(
     child: Text("لا"),
     onPressed: () {
@@ -84,10 +85,10 @@ Future<bool> showAlertDialog(
       final response;
       if (code == "1") {
         print(
-            'https://jerusalemaccounting.yaghco.website/debting/html/ltr/$msg_link.php?x=قيمة اخر عملية شراء $total1 شيكل &phone_num=$phone');
+            'https://jerusalemaccounting.yaghco.website/debting/html/ltr/$msg_link.php?x=قيمة اخر عملية شراء $vString شيكل &phone_num=$phone');
         response = await http.post(
           Uri.parse(
-              'https://jerusalemaccounting.yaghco.website/debting/html/ltr/$msg_link.php?x=قيمة اخر عملية شراء $total1 شيكل &phone_num=$phone'),
+              'https://jerusalemaccounting.yaghco.website/debting/html/ltr/$msg_link.php?x=قيمة اخر عملية شراء $vString شيكل &phone_num=$phone'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -95,10 +96,10 @@ Future<bool> showAlertDialog(
         );
       } else {
         print(
-            'https://jerusalemaccounting.yaghco.website/debting/html/ltr/$msg_link.php?x=تم دفع مبلغ بقيمة $total1 شيكل  &phone_num=$phone');
+            'https://jerusalemaccounting.yaghco.website/debting/html/ltr/$msg_link.php?x=تم دفع مبلغ بقيمة $vString شيكل  &phone_num=$phone');
         response = await http.post(
           Uri.parse(
-              'https://jerusalemaccounting.yaghco.website/debting/html/ltr/$msg_link.php?x=تم دفع مبلغ بقيمة $total1 شيكل &phone_num=$phone'),
+              'https://jerusalemaccounting.yaghco.website/debting/html/ltr/$msg_link.php?x=تم دفع مبلغ بقيمة $vString شيكل &phone_num=$phone'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -229,7 +230,7 @@ class _AddQabdState extends State<AddQabd> {
           a_date.text = sDate.toString();
           notes.text = "";
           phone_controller.text = "";
-          total.text = "0";
+          total.text = "";
           fill = 0;
         });
         return;

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 var Main_Color = Color(0xff34568B);
 class ReportZemamCard extends StatefulWidget {
-  final balance, c_name, c_id, phone;
+  final balance, c_name, c_id, phone,cust_id;
   
 
   ReportZemamCard({
@@ -13,6 +13,7 @@ class ReportZemamCard extends StatefulWidget {
     this.balance,
    
     required this.c_id,
+      required this.cust_id,
     required this.c_name,
   
   }) : super(key: key);
@@ -66,7 +67,7 @@ class _ReportZemamCardState extends State<ReportZemamCard> {
                           border: Border.all(color: Color(0xffD6D3D3))),
                       child: Center(
                         child: Text(
-                          "${widget.c_id}",
+                          "${widget.cust_id}",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14),
                         ),
