@@ -1,6 +1,8 @@
 import 'package:alquds_debting/admin_screen.dart';
 import 'package:alquds_debting/edit_customer.dart';
 import 'package:alquds_debting/kashf_hesab.dart';
+import 'package:alquds_debting/reset_password.dart';
+import 'package:alquds_debting/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:alquds_debting/welcome_page.dart';
 import 'package:alquds_debting/first_page.dart';
@@ -29,6 +31,9 @@ class FlashChat extends StatelessWidget {
                      ZemamReport.id: (context) => ZemamReport(),
                      AdminScreen.id: (context) => AdminScreen(),
                             EditCustomer.id: (context) => EditCustomer(),
+                                Setting.id: (context) => Setting(),
+                                   ChangePasswordPage.id: (context) => ChangePasswordPage(),
+                            
       },
     );
   }

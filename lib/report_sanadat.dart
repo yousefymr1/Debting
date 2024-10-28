@@ -5,6 +5,7 @@ import 'package:alquds_debting/qabd.dart';
 import 'package:alquds_debting/rounded_button.dart';
 import 'package:alquds_debting/sanadat_card.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:intl/intl.dart';
 var Main_Color = Color(0xff34568B);
@@ -23,6 +24,7 @@ class SanadatReport extends StatefulWidget {
 }
 
 class _SanadatReportState extends State<SanadatReport> {
+     String _selectedLanguage = 'ar'; // Default to Arabic
    List _loadedPhotos = [];
   List _loadedPhotos2 = [];
     ScrollController _scrollController = ScrollController();
@@ -35,7 +37,7 @@ class _SanadatReportState extends State<SanadatReport> {
     super.initState();
     // Print to check if the controller is being attached properly
     print("Attaching ScrollController Listener");
-    
+    _loadSharedPreference();
     _scrollController.addListener(() {
       print("Scroll Position: ${_scrollController.position.pixels}");
       print("Max Scroll Extent: ${_scrollController.position.maxScrollExtent}");
@@ -44,7 +46,12 @@ class _SanadatReportState extends State<SanadatReport> {
     _scrollController.addListener(_loadMoreData);  // Attach listener
     _fetchData(); // Fetch initial data
   }
-
+Future<void> _loadSharedPreference() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  setState(() {
+    _selectedLanguage = prefs.getString('language') ?? 'ar';  // Default to Arabic if no preference is set
+  });
+}
   @override
   void dispose() {
     _scrollController.dispose();
@@ -214,12 +221,12 @@ if(item["a_date"].toString() != "0000-00-00 00:00:00"){
    code = arguments['a_code'];
 
 if(arguments['a_code'] == "1")
-         page_name = "الديون";
+        _selectedLanguage == 'ar' ? page_name = "الديون" : page_name ="Debts";
          else
-          page_name = "الدفعات";
+        _selectedLanguage == 'ar' ?  page_name = "الدفعات" : page_name ="Payments";
 
     if (fill == 0) {
-      _fetchData();
+     // _fetchData();
          start_date.text = "${DateTime.now().year.toString()}-${DateTime.now().month.toString().padLeft(2,'0')}-${"01".padLeft(2,'0')}";
       end_date.text = "${DateTime.now().year.toString()}-${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.now().day.toString().padLeft(2,'0')}";
     
@@ -240,15 +247,27 @@ return ;
        },
       child: Scaffold(
           appBar: AppBar(
-            elevation: 0.1,
-        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-          centerTitle: true,
-          title: const Text('القدس لمتابعة الديون', textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold)),
+        elevation: 0.0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color.fromARGB(255, 8, 29, 82), Color.fromARGB(255, 5, 58, 42)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
         ),
+        centerTitle: true,
+        title: Text(
+     _selectedLanguage == 'ar' ? 'القدس لمتابعة الديون' : 'Jerusalem Debts',
+          style: GoogleFonts.cairo(
+            textStyle: const TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
         body: Directionality(
           
-                textDirection: TextDirection.rtl,
+                textDirection: _selectedLanguage == 'ar' ? TextDirection.rtl : TextDirection.ltr,
           child: Column(
             children: [
                   Text(
@@ -276,7 +295,7 @@ return ;
                               textAlign: TextAlign.center,
                               obscureText: false,
                               decoration: InputDecoration(
-                                hintText: 'من تاريخ',
+                                hintText:_selectedLanguage == 'ar' ? 'من تاريخ' :"From Date",
                                 hintStyle: TextStyle(
                                     fontWeight: FontWeight.w400, fontSize: 14),
                                 focusedBorder: OutlineInputBorder(
@@ -308,7 +327,7 @@ return ;
                               readOnly: true,
                               obscureText: false,
                               decoration: InputDecoration(
-                                hintText: 'الى تاريخ',
+                                hintText: _selectedLanguage == 'ar' ?'الى تاريخ' : "To Date",
                                 hintStyle: TextStyle(
                                     fontWeight: FontWeight.w400, fontSize: 14),
                                 focusedBorder: OutlineInputBorder(
@@ -327,10 +346,10 @@ return ;
                     ),
                   ),
          Directionality(
-                textDirection: TextDirection.ltr,
+                textDirection: _selectedLanguage == 'ar' ? TextDirection.rtl : TextDirection.ltr,
           child:  RoundedButton(
            icon: Icons.search,
-                  title: 'بحث',
+                  title: _selectedLanguage == 'ar' ?'بحث' : "Search",
                   colour: Color.fromRGBO(58, 66, 86, 1.0),
                   onPressed: () {
                     _runFilter();
@@ -338,7 +357,7 @@ return ;
          ),
                    Row(
                     children: [
-                     Text(' المجموع :', textAlign: TextAlign.right,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                     Text(_selectedLanguage == 'ar' ?' المجموع :' : " Total : ", textAlign: TextAlign.right,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                     SizedBox(width: 20,),
                        Text(  blnc.toString(), textAlign: TextAlign.right,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
                     ],
@@ -366,7 +385,7 @@ return ;
                                               Border.all(color: Color(0xffD6D3D3))),
                                       child: Center(
                                         child: Text(
-                                          "المبلغ",
+                                         _selectedLanguage == 'ar' ? "المبلغ" : "Total",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -387,7 +406,7 @@ return ;
                                               Border.all(color: Color(0xffD6D3D3))),
                                       child: Center(
                                         child: Text(
-                                          "رقم الزبون",
+                                        _selectedLanguage == 'ar' ?  "رقم الزبون" :"C.ID",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -408,7 +427,7 @@ return ;
                                               Border.all(color: Color(0xffD6D3D3))),
                                       child: Center(
                                         child: Text(
-                                          "اسم الزبون",
+                                         _selectedLanguage == 'ar' ? "اسم الزبون" : "Name",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -429,7 +448,7 @@ return ;
                                               Border.all(color: Color(0xffD6D3D3))),
                                       child: Center(
                                         child: Text(
-                                          "التاريخ",
+                                         _selectedLanguage == 'ar' ? "التاريخ" : "Date",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -450,7 +469,7 @@ return ;
                                               Border.all(color: Color(0xffD6D3D3))),
                                       child: Center(
                                         child: Text(
-                                          "رقم السند",
+                                       _selectedLanguage == 'ar' ?   "رقم السند" : "ID",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -471,7 +490,7 @@ return ;
                                               Border.all(color: Color(0xffD6D3D3))),
                                       child: Center(
                                         child: Text(
-                                          "ملاحظات",
+                                         _selectedLanguage == 'ar' ? "ملاحظات" : "Notes",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -529,6 +548,7 @@ return ;
                                         total: _loadedPhotos2[index]['total'] ?? "",
                                         notes:_loadedPhotos2[index]['notes'] ?? "",
                                         date: _loadedPhotos2[index]['a_date'].substring(0, 10) ?? "",
+                                        s_id:_loadedPhotos2[index]['s_id'] ?? "",
                                         
                                       );
                 }, 

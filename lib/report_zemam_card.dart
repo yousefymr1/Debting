@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 var Main_Color = Color(0xff34568B);
 class ReportZemamCard extends StatefulWidget {
-  final balance, c_name, c_id, phone,cust_id;
+  final balance, c_name, c_id, phone,cust_id,s_language;
   
 
   ReportZemamCard({
@@ -15,7 +15,7 @@ class ReportZemamCard extends StatefulWidget {
     required this.c_id,
       required this.cust_id,
     required this.c_name,
-  
+   required this.s_language
   }) : super(key: key);
 
   @override
@@ -114,7 +114,7 @@ class _ReportZemamCardState extends State<ReportZemamCard> {
                       child: Center(
                         child:    TextButton(
                                
-                                        child: Text("تعديل",  style: TextStyle(color: Colors.black,fontSize: 10),),
+                                        child: Text( widget.s_language == 'ar' ? "تعديل" : "Edit",  style: TextStyle(color: Colors.black,fontSize: 10),),
                                         onPressed: () {
   Navigator.pushNamed(context, EditCustomer.id, arguments: {
                                       'id': widget.c_id,

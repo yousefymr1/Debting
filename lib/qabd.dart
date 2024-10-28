@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:easy_autocomplete/easy_autocomplete.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -172,6 +173,21 @@ Future<void> _fetchData() async {
 }
 
 class _AddQabdState extends State<AddQabd> {
+String _selectedLanguage = 'ar'; // Default to Arabic
+
+ @override
+  void initState() {
+    super.initState();
+    _loadSharedPreference();
+  }
+
+Future<void> _loadSharedPreference() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  setState(() {
+    _selectedLanguage = prefs.getString('language') ?? 'ar';  // Default to Arabic if no preference is set
+  });
+}
+
   void _runFilter(String enteredKeyword) {
     List results = [];
     if (enteredKeyword.isEmpty) {
@@ -203,10 +219,11 @@ class _AddQabdState extends State<AddQabd> {
 
     //print(arguments['a_code']);
     code = arguments['a_code'];
-    if (arguments['a_code'] == "1")
-      page_name = "تسجيل دين";
-    else
-      page_name = "تسجيل دفعة";
+   if (_selectedLanguage == 'ar') {
+    page_name = arguments['a_code'] == "1" ? "تسجيل دين" : "تسجيل دفعة";
+  } else {
+    page_name = arguments['a_code'] == "1" ? "Add Debt" : "Add Payment";
+  }
     if (fill == 0) {
       _fetchData();
       fill = 1;
@@ -237,16 +254,24 @@ class _AddQabdState extends State<AddQabd> {
       },
       child: Scaffold(
         appBar: AppBar(
-          elevation: 0.1,
-          backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-          centerTitle: true,
-          title: const Text('القدس لمتابعة الديون',
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold)),
+        elevation: 0.0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color.fromARGB(255, 8, 29, 82), Color.fromARGB(255, 5, 58, 42)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
         ),
+        centerTitle: true,
+        title: Text(
+           _selectedLanguage == 'ar' ? 'القدس لمتابعة الديون' : 'Al-Quds Debt',
+          style: GoogleFonts.cairo(
+            textStyle: const TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -281,7 +306,7 @@ class _AddQabdState extends State<AddQabd> {
 
   _inputField(context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+    textDirection: _selectedLanguage == 'ar' ? TextDirection.rtl : TextDirection.ltr,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -290,9 +315,9 @@ class _AddQabdState extends State<AddQabd> {
             child: TextField(
               enabled: false,
               controller: c_id,
-              textAlign: TextAlign.right,
+              textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
               decoration: InputDecoration(
-                  hintText: "رقم الزبون",
+                  hintText: _selectedLanguage == 'ar' ? "رقم الزبون" : "Customer ID",
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(18),
                       borderSide: BorderSide.none),
@@ -307,8 +332,8 @@ class _AddQabdState extends State<AddQabd> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  'اسم الزبون :',
-                  textAlign: TextAlign.right,
+                 _selectedLanguage == 'ar' ? 'اسم الزبون :' : 'Name:',
+                textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -328,9 +353,9 @@ class _AddQabdState extends State<AddQabd> {
                     });
                   },
                   controller: c_name_controller,
-                  textAlign: TextAlign.right,
+                  textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   decoration: InputDecoration(
-                    hintText: "اسم الزبون",
+                     hintText: _selectedLanguage == 'ar' ? "اسم الزبون" : "Customer Name",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
                         borderSide: BorderSide.none),
@@ -356,8 +381,8 @@ class _AddQabdState extends State<AddQabd> {
                       controller: _controller,
                       autofocus: true,
                       onChanged: (value) => _runFilter(value),
-                      decoration: const InputDecoration(
-                          labelText: 'بحث', suffixIcon: Icon(Icons.search)),
+                      decoration:  InputDecoration(
+                          labelText: _selectedLanguage == 'ar' ?'بحث' :'Search', suffixIcon: Icon(Icons.search)),
                     ),
                     const SizedBox(
                       height: 20,
@@ -409,8 +434,8 @@ class _AddQabdState extends State<AddQabd> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  'الهاتف :',
-                  textAlign: TextAlign.right,
+                _selectedLanguage == 'ar' ?  'الهاتف :' : 'Phone :',
+                  textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -422,9 +447,9 @@ class _AddQabdState extends State<AddQabd> {
                 flex: 3,
                 child: TextField(
                   controller: phone_controller,
-                  textAlign: TextAlign.right,
+               textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   decoration: InputDecoration(
-                    hintText: "الهاتف",
+                    hintText: _selectedLanguage == 'ar' ?  'الهاتف :' : 'Phone :',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
                         borderSide: BorderSide.none),
@@ -443,8 +468,8 @@ class _AddQabdState extends State<AddQabd> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  'التاريخ :',
-                  textAlign: TextAlign.right,
+                 _selectedLanguage == 'ar' ?  'التاريخ :' : 'Date :',
+                  textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -462,9 +487,9 @@ class _AddQabdState extends State<AddQabd> {
                     });
                   },
                   controller: a_date,
-                  textAlign: TextAlign.right,
+                textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   decoration: InputDecoration(
-                      hintText: "التاريخ",
+                      hintText: _selectedLanguage == 'ar' ? "التاريخ" : 'Date',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(18),
                           borderSide: BorderSide.none),
@@ -481,8 +506,8 @@ class _AddQabdState extends State<AddQabd> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  'المبلغ :',
-                  textAlign: TextAlign.right,
+                  _selectedLanguage == 'ar' ? 'المبلغ :' : 'Total :',
+               textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -494,9 +519,9 @@ class _AddQabdState extends State<AddQabd> {
                 flex: 3,
                 child: TextField(
                   controller: total,
-                  textAlign: TextAlign.right,
+                textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   decoration: InputDecoration(
-                      hintText: "المبلغ",
+                      hintText: _selectedLanguage == 'ar' ? "المبلغ" : 'Total',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(18),
                           borderSide: BorderSide.none),
@@ -513,8 +538,8 @@ class _AddQabdState extends State<AddQabd> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  'الملاحظات ',
-                  textAlign: TextAlign.right,
+                _selectedLanguage == 'ar' ?   'الملاحظات :' :'Notes :',
+                 textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -526,9 +551,9 @@ class _AddQabdState extends State<AddQabd> {
                 flex: 3,
                 child: TextField(
                   controller: notes,
-                  textAlign: TextAlign.right,
+              textAlign: _selectedLanguage == 'ar' ? TextAlign.right : TextAlign.left,
                   decoration: InputDecoration(
-                    hintText: "الملاحظات",
+                    hintText:  _selectedLanguage == 'ar' ?"الملاحظات":'Notes',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
                         borderSide: BorderSide.none),
@@ -541,8 +566,11 @@ class _AddQabdState extends State<AddQabd> {
               ),
             ],
           ),
-          const SizedBox(height: 40),
-          ElevatedButton(
+          const SizedBox(height: 20),
+          _buildRoundedButton(
+            context,
+            icon: Icons.save,
+            title:  _selectedLanguage == 'ar' ?'حفظ':'Save',
             onPressed: () {
               if (c_id.text.trim() != "" &&
                   total.text.trim() != "" &&
@@ -561,14 +589,14 @@ class _AddQabdState extends State<AddQabd> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      content: Text('الرجاء ادخال المبلغ'),
+                      content: Text(  _selectedLanguage == 'ar' ?'الرجاء ادخال المبلغ' :'Total feild is empty!'),
                       actions: <Widget>[
                         InkWell(
                           onTap: () {
                             Navigator.of(context).pop();
                           },
                           child: Text(
-                            'حسنا',
+                            _selectedLanguage == 'ar' ? 'حسنا' :'OK',
                             style: TextStyle(color: Color(0xff34568B)),
                           ),
                         ),
@@ -578,19 +606,8 @@ class _AddQabdState extends State<AddQabd> {
                 );
               }
             },
-            style: ElevatedButton.styleFrom(
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-            ),
-            child: const Text(
-              "إضافة",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-                color: Colors.white,
-              ),
-            ),
+           
+          
           )
         ],
       ),
@@ -633,5 +650,32 @@ class _AddQabdState extends State<AddQabd> {
     a_date.text = selectedDate22.toString();
 
     return selectedDate22;
+  }
+  
+  Widget _buildRoundedButton(BuildContext context,
+      {required IconData icon, required String title, required VoidCallback onPressed}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(vertical: 16.0),
+            backgroundColor: Color(0xFF3A4256),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            elevation: 6.0,
+            shadowColor: Colors.black38,
+          ),
+          icon: Icon(icon, color: Colors.white, size: 28.0),
+          label: Text(
+            title,
+            style: GoogleFonts.cairo(
+              textStyle: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Colors.white),
+            ),
+          ),
+          onPressed: onPressed,
+        ),
+      ),
+    );
   }
 }

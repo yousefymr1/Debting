@@ -5,6 +5,7 @@ import 'package:alquds_debting/report_zemam_card.dart';
 import 'package:alquds_debting/rounded_button.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -24,6 +25,10 @@ class ZemamReport extends StatefulWidget {
 }
 
 class _ZemamReportState extends State<ZemamReport> {
+  String _selectedLanguage = 'ar'; // Default to Arabic
+
+
+
   List _loadedPhotos = [];
   List _loadedPhotos2 = [];
   ScrollController _scrollController = ScrollController();
@@ -36,7 +41,7 @@ class _ZemamReportState extends State<ZemamReport> {
     super.initState();
     // Print to check if the controller is being attached properly
     print("Attaching ScrollController Listener");
-    
+      _loadSharedPreference();
     _scrollController.addListener(() {
       print("Scroll Position: ${_scrollController.position.pixels}");
       print("Max Scroll Extent: ${_scrollController.position.maxScrollExtent}");
@@ -45,7 +50,12 @@ class _ZemamReportState extends State<ZemamReport> {
     _scrollController.addListener(_loadMoreData);  // Attach listener
     _fetchData(); // Fetch initial data
   }
-
+Future<void> _loadSharedPreference() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  setState(() {
+    _selectedLanguage = prefs.getString('language') ?? 'ar';  // Default to Arabic if no preference is set
+  });
+}
   @override
   void dispose() {
     _scrollController.dispose();
@@ -111,27 +121,37 @@ class _ZemamReportState extends State<ZemamReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.1,
-        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+        elevation: 0.0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color.fromARGB(255, 8, 29, 82), Color.fromARGB(255, 5, 58, 42)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         centerTitle: true,
-        title: const Text('القدس لمتابعة الديون',
-            textAlign: TextAlign.right,
-            style: TextStyle(
-                fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold)),
+        title: Text(
+           _selectedLanguage == 'ar' ? 'القدس لمتابعة الديون' : 'Jerusalem Debts',
+          style: GoogleFonts.cairo(
+            textStyle: const TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
       body: Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: _selectedLanguage == 'ar' ? TextDirection.rtl : TextDirection.ltr,
         child: Column(
           children: [
             Text(
-              "مجمل الذمم",
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+           _selectedLanguage == 'ar' ?   "مجمل الذمم" :"Total accounts receivable",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             Directionality(
-                textDirection: TextDirection.ltr,
+                textDirection: _selectedLanguage == 'ar' ? TextDirection.rtl : TextDirection.ltr,
                 child: RoundedButton(
                   icon: Icons.search,
-                  title: 'بحث',
+                  title:  _selectedLanguage == 'ar' ?  'بحث' :"Search",
                   colour: Color.fromRGBO(58, 66, 86, 1.0),
                   onPressed: () {
                     _fetchData();
@@ -141,15 +161,15 @@ class _ZemamReportState extends State<ZemamReport> {
            Row(
                   children: [
                     Text(
-                      ' المجموع :',
-                      textAlign: TextAlign.right,
+                      _selectedLanguage == 'ar' ?   ' المجموع :' :" Total : ",
+                      textAlign:  _selectedLanguage == 'ar' ?   TextAlign.right : TextAlign.left,
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       width: 20,
                     ),
                     Text(blnc.toString(),
-                        textAlign: TextAlign.right,
+                        textAlign: _selectedLanguage == 'ar' ?   TextAlign.right : TextAlign.left,
                         style:
                             TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   ],
@@ -176,7 +196,7 @@ class _ZemamReportState extends State<ZemamReport> {
                                   border: Border.all(color: Color(0xffD6D3D3))),
                               child: Center(
                                 child: Text(
-                                  "المبلغ",
+                                 _selectedLanguage == 'ar' ?   "المبلغ" : "Total",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
@@ -196,7 +216,7 @@ class _ZemamReportState extends State<ZemamReport> {
                                   border: Border.all(color: Color(0xffD6D3D3))),
                               child: Center(
                                 child: Text(
-                                  "رقم الزبون",
+                                _selectedLanguage == 'ar' ?    "رقم الزبون" : "ID",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
@@ -216,7 +236,7 @@ class _ZemamReportState extends State<ZemamReport> {
                                   border: Border.all(color: Color(0xffD6D3D3))),
                               child: Center(
                                 child: Text(
-                                  "اسم الزبون",
+                                  _selectedLanguage == 'ar' ?  "اسم الزبون" : "Name",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
@@ -236,7 +256,7 @@ class _ZemamReportState extends State<ZemamReport> {
                                   border: Border.all(color: Color(0xffD6D3D3))),
                               child: Center(
                                 child: Text(
-                                  "الهاتف",
+                                  _selectedLanguage == 'ar' ?  "الهاتف" : "Phone",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
@@ -256,7 +276,7 @@ class _ZemamReportState extends State<ZemamReport> {
                                   border: Border.all(color: Color(0xffD6D3D3))),
                               child: Center(
                                 child: Text(
-                                  "تعديل",
+                                  _selectedLanguage == 'ar' ?  "تعديل" : "Edit",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
@@ -287,6 +307,7 @@ class _ZemamReportState extends State<ZemamReport> {
                     c_name: _loadedPhotos2[index]['c_name'] ?? "",
                     balance: _loadedPhotos2[index]['balance'] ?? "",
                     phone: _loadedPhotos2[index]['phone'] ?? "",
+                       s_language: _selectedLanguage ,
                   );
                 },
               ),

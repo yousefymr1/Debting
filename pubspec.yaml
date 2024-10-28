@@ -21,6 +21,11 @@ dependencies:
   device_info_plus: ^3.2.4
   
   shared_preferences: ^2.0.8
+  google_fonts: ^4.0.4
+  fluttertoast: ^8.2.8
+  flutter_localizations:
+    sdk: flutter
+  url_launcher: ^6.3.1
   
 dev_dependencies:
   flutter_test:
@@ -35,6 +40,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/a.png
+    - assets/logo3.jpeg
 flutter_icons:
   image_path: "icon/a.png" 
   android: true

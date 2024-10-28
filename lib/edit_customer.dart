@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:alquds_debting/kashf_hesab.dart';
 import 'package:alquds_debting/report_mogmal_zemam.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 final TextEditingController _controller1 = TextEditingController();
@@ -68,14 +69,25 @@ class _EditCustomerState extends State<EditCustomer> {
 
 
     return  Scaffold(
-        appBar: AppBar(
-             elevation: 0.1,
-      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
- centerTitle: true,
-        title:  const Text('القدس لمتابعة الديون' ,textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold)),
+        appBar:AppBar(
+        elevation: 0.0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color.fromARGB(255, 8, 29, 82), Color.fromARGB(255, 5, 58, 42)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        centerTitle: true,
+        title: Text(
+          'القدس لمتابعة الديون',
+          style: GoogleFonts.cairo(
+            textStyle: const TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
-   
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -151,7 +163,10 @@ class _EditCustomerState extends State<EditCustomer> {
        
         ),
         const SizedBox(height: 10),
-        ElevatedButton(
+          _buildRoundedButton(
+            context,
+            icon: Icons.save,
+            title: 'تعديل',
           onPressed: () async {
             if(_controller1.text.trim() != "") {
            //  Navigator.pushNamed(context,FirstPage.id);
@@ -183,18 +198,36 @@ class _EditCustomerState extends State<EditCustomer> {
 
             }
           },
-          style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(),
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-          ),
-          child: const Text(
-            "تعديل",
-            style: TextStyle(fontSize: 20,color: Colors.white,),
-          ),
+        
         )
       ],
     );
   }
 
+  Widget _buildRoundedButton(BuildContext context,
+      {required IconData icon, required String title, required VoidCallback onPressed}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(vertical: 16.0),
+            backgroundColor: Color(0xFF3A4256),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            elevation: 6.0,
+            shadowColor: Colors.black38,
+          ),
+          icon: Icon(icon, color: Colors.white, size: 28.0),
+          label: Text(
+            title,
+            style: GoogleFonts.cairo(
+              textStyle: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Colors.white),
+            ),
+          ),
+          onPressed: onPressed,
+        ),
+      ),
+    );
+  }
 }

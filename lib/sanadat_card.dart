@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 var Main_Color = Color(0xff34568B);
 class SanadCard extends StatefulWidget {
-  final total, c_name, c_id, date, action_id, notes;
+  final total, c_name, c_id, date, action_id, notes,s_id;
   var actions;
 
   SanadCard({
@@ -17,6 +17,7 @@ class SanadCard extends StatefulWidget {
     required this.c_name,
     required this.notes,
     required this.actions,
+    required this.s_id,
   }) : super(key: key);
 
   @override
@@ -136,7 +137,7 @@ Future deletesanad(String id) async {
                           border: Border.all(color: Color(0xffD6D3D3))),
                       child: Center(
                         child: Text(
-                          "${widget.action_id}",
+                          "${widget.s_id}",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14),
                         ),

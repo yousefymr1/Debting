@@ -5,6 +5,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 var Main_Color = Color.fromRGBO(58, 66, 86, 1.0);
 var active = "0";
 class AdminScreen extends StatefulWidget {
@@ -16,7 +17,20 @@ class AdminScreen extends StatefulWidget {
 }
 
 class _AdminScreenState extends State<AdminScreen> {
-  
+  String _selectedLanguage = 'ar'; // Default to Arabic
+
+ @override
+  void initState() {
+    super.initState();
+    _loadSharedPreference();
+  }
+
+Future<void> _loadSharedPreference() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  setState(() {
+    _selectedLanguage = prefs.getString('language') ?? 'ar';  // Default to Arabic if no preference is set
+  });
+}
   @override
   final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey();
   Widget build(BuildContext context) {
@@ -33,14 +47,14 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
         key: _scaffoldState,
     
         body: Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection:_selectedLanguage == 'ar' ? TextDirection.rtl : TextDirection.ltr,
           child: SingleChildScrollView(
               child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: Text(
-                  "اضافة مستخدم",
+               _selectedLanguage == 'ar' ?   "اضافة مستخدم" :"Create Account",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -49,8 +63,8 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      "اسم المستخدم",
+                    Text(    _selectedLanguage == 'ar' ?   "اسم المستخدم":"UsarName",
+                      
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -73,7 +87,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                         borderSide:
                             BorderSide(width: 2.0, color: Color(0xffD6D3D3)),
                       ),
-                      hintText: "أسم المستخدم",
+                      hintText: _selectedLanguage == 'ar' ?   "أسم المستخدم" :"UserName",
                     ),
                   ),
                 ),
@@ -84,7 +98,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "كلمه المرور",
+                      _selectedLanguage == 'ar' ?   "كلمه المرور": "Password",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -107,7 +121,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                         borderSide:
                             BorderSide(width: 2.0, color: Color(0xffD6D3D3)),
                       ),
-                      hintText: "كلمه المرور",
+                      hintText: _selectedLanguage == 'ar' ?   "كلمه المرور" :"Passwors",
                     ),
                   ),
                 ),
@@ -118,7 +132,8 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "تأكيد كلمه المرور",
+                    _selectedLanguage == 'ar' ?     "تأكيد كلمه المرور" :"Confirm password",
+                    
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -141,7 +156,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                         borderSide:
                             BorderSide(width: 2.0, color: Color(0xffD6D3D3)),
                       ),
-                      hintText: "تأكيد كلمه المرور",
+                      hintText:  _selectedLanguage == 'ar' ?     "تأكيد كلمه المرور" :"Confirm password",
                     ),
                   ),
                 ),
@@ -152,7 +167,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "رقم الشركة",
+                    _selectedLanguage == 'ar' ?    "رقم الشركة" :"Company Id",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -177,7 +192,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                         borderSide:
                             BorderSide(width: 2.0, color: Color(0xffD6D3D3)),
                       ),
-                      hintText: "رقم الشركه",
+                      hintText:   _selectedLanguage == 'ar' ?    "رقم الشركة" :"Company Id",
                     ),
                   ),
                 ),
@@ -189,7 +204,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "اسم الشركة",
+                      _selectedLanguage == 'ar' ?    "اسم الشركة" :"Company Name",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -213,7 +228,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                         borderSide:
                             BorderSide(width: 2.0, color: Color(0xffD6D3D3)),
                       ),
-                      hintText: "اسم الشركة",
+                      hintText:      _selectedLanguage == 'ar' ?    "اسم الشركة" :"Company Name",
                     ),
                   ),
                 ),
@@ -224,7 +239,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "الرابط",
+                    _selectedLanguage == 'ar' ?   "الرابط" :"Link",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -248,7 +263,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                         borderSide:
                             BorderSide(width: 2.0, color: Color(0xffD6D3D3)),
                       ),
-                      hintText: "الرابط",
+                      hintText: _selectedLanguage == 'ar' ? "الرابط" :"Link",
                     ),
                   ),
                 ),
@@ -266,7 +281,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
                   color: Color.fromRGBO(58, 66, 86, 1.0),
                   textColor: Colors.white,
                   child: Text(
-                    "اضافة مستخدم",
+                  _selectedLanguage == 'ar' ?   "اضافة مستخدم" :"Save",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () {
@@ -312,7 +327,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text("الرجاء تعبئه جمبع الفراغات"),
+            content: Text(   _selectedLanguage == 'ar' ? "الرجاء تعبئه جمبع الفراغات" :"Please enter all information"),
             actions: <Widget>[
               InkWell(
                 onTap: () {
@@ -333,7 +348,7 @@ final arguments = (ModalRoute.of(context)?.settings.arguments ??
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text("كلمه المرور غير متطابقه"),
+            content: Text(   _selectedLanguage == 'ar' ? "كلمه المرور غير متطابقه" :"Password invalid"),
             actions: <Widget>[
               InkWell(
                 onTap: () {
