@@ -5,9 +5,12 @@ import 'package:alquds_debting/kashf_card.dart';
 import 'package:alquds_debting/rounded_button.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:pdf/widgets.dart' as pw;
 var Main_Color = Color(0xff2196F3);
 final TextEditingController c_name_controller = TextEditingController();
 final TextEditingController c_id = TextEditingController();
@@ -90,6 +93,7 @@ class _KashfHesabState extends State<KashfHesab> {
       final List data = json.decode(content) ?? [];
 
       setState(() {
+        
         _loadedPhotos = data;
         if(_selectedLanguage != "ar")
         {
@@ -105,6 +109,9 @@ for(int i = 0 ; i<_loadedPhotos.length ;i++)
             _loadedPhotos[_loadedPhotos.length - 1]['balance'].toString());
         print("_loadedPhotos");
       });
+      listPDFAll.clear();
+      listPDFAll.addAll(_loadedPhotos);
+      print(listPDFAll);
     }
   }
 
@@ -126,6 +133,7 @@ for(int i = 0 ; i<_loadedPhotos.length ;i++)
     final List data = json.decode(content) ?? [];
 
     setState(() {
+      
       _loadedcust = data;
       print(_loadedcust);
       _loadedcust2 = _loadedcust;
@@ -352,6 +360,18 @@ for(int i = 0 ; i<_loadedPhotos.length ;i++)
                             ? TextAlign.right :TextAlign.left  ,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
+                             Spacer(),
+    Padding(
+      padding: const EdgeInsets.fromLTRB(15.0,0,15,0),
+      child: _buildRoundedButton(
+        context,
+        icon: Icons.picture_as_pdf,
+        title: _selectedLanguage == 'ar' ? 'PDF' : "PDF",
+        onPressed: () {
+          pdfPrinterA4(true);
+        },
+      ),
+    ),  
                   ],
                 ),
                 Padding(
@@ -522,6 +542,338 @@ for(int i = 0 ; i<_loadedPhotos.length ;i++)
           ),
         ),
       ),
+    );
+  }
+  
+  Widget _buildRoundedButton(BuildContext context, {required IconData icon, required String title, required VoidCallback onPressed}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Directionality(
+        textDirection: _selectedLanguage == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 1, 45, 65), 
+                Color.fromARGB(255, 14, 165, 92),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              elevation: 6.0,
+              shadowColor: Colors.black38,
+            ),
+            icon: Icon(icon, color: Colors.white, size: 28.0),
+            label: Text(
+              title,
+              style: GoogleFonts.cairo(
+                textStyle: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Colors.white),
+              ),
+            ),
+            onPressed: onPressed,
+          ),
+        ),
+      ),
+    );
+  }
+  var listPDFAll = [];
+
+pw.Padding firstrowPDF(int index, bool A4, var arabicFont) {
+  return pw.Padding(
+    padding: A4
+        ? pw.EdgeInsets.only(right: 15, left: 15, top: 15)
+        : pw.EdgeInsets.only(top: 15),
+    child: pw.Container(
+      child: pw.Column(
+        children: [
+          pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+            children: [
+              pw.Directionality(
+                textDirection: pw.TextDirection.rtl,
+                child: pw.Expanded(
+                  flex: 1,
+                  child: pw.Center(
+                    child: pw.Text(
+                          
+                      "${listPDFAll[index]['id'] ?? "-"}",
+                      style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                          fontSize: A4 ? 14 : 5,
+                           font: arabicFont),
+                    ),
+                  ),
+                ),
+              ),
+              
+              pw.Directionality(
+                textDirection: pw.TextDirection.rtl,
+                child: pw.Expanded(
+                  flex: 2,
+                  child: pw.Center(
+                    child: pw.Text(
+                      
+                      "${DateTime.parse(listPDFAll[index]['a_date']).year.toString()}-${DateTime.parse(listPDFAll[index]['a_date']).month.toString().padLeft(2, '0')}-${DateTime.parse(listPDFAll[index]['a_date']).day.toString().padLeft(2, '0')}",
+                      style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                          fontSize: A4 ? 14 : 5,
+                           font: arabicFont),
+                    ),
+                  ),
+                ),
+              ),
+                pw.Directionality(
+                textDirection: pw.TextDirection.rtl,
+                child: pw.Expanded(
+                  flex: 1,
+                  child: pw.Center(
+                    child: pw.Text(
+                          
+                      "${listPDFAll[index]['bayan'] ?? "-"}",
+                      style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                          fontSize: A4 ? 14 : 5,
+                           font: arabicFont),
+                    ),
+                  ),
+                ),
+              ),
+              pw.Directionality(
+                textDirection: pw.TextDirection.rtl,
+                child: pw.Expanded(
+                  flex: 3,
+                  child: pw.Center(
+                    child: pw.Text(
+                      "${listPDFAll[index]['lah'] ?? ""}",
+                      style: pw.TextStyle(fontSize: A4 ? 14 : 5,
+                           font: arabicFont),
+                    ),
+                  ),
+                ),
+              ),
+                pw.Directionality(
+                textDirection: pw.TextDirection.rtl,
+                child: pw.Expanded(
+                  flex: 1,
+                  child: pw.Center(
+                    child: pw.Text(
+                      "${listPDFAll[index]['mnh'].toString()}",
+                      style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                          fontSize: A4 ? 14 : 5,
+                           font: arabicFont),
+                    ),
+                  ),
+                ),
+              ),
+            
+              pw.Directionality(
+                textDirection: pw.TextDirection.rtl,
+                child: pw.Expanded(
+                  flex: 1,
+                  child: pw.Center(
+                    child: pw.Text(
+                      "${listPDFAll[index]['balance'].toString()}",
+                      style: pw.TextStyle(
+                          fontWeight: pw.FontWeight.bold,
+                          fontSize: A4 ? 14 : 5,
+                           font: arabicFont),
+                    ),
+                  ),
+                ),
+              ),
+            
+            ],
+          ),
+          pw.Padding(
+            padding: const pw.EdgeInsets.only(top: 10),
+            child: pw.Container(
+              width: double.infinity,
+              height: 2,
+              color: PdfColors.grey,
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+pdfPrinterA4(bool withproduct) async {
+    var arabicFont =
+        pw.Font.ttf(await rootBundle.load("assets/fonts/Hacen_Tunisia.ttf"));
+    List<pw.Widget> widgets = [];
+    final title = pw.Column(
+      children: [
+        pw.Center(
+          child: pw.Directionality(
+              textDirection:  _selectedLanguage == 'ar'
+                  ?pw.TextDirection.rtl :pw.TextDirection.ltr ,
+            child: pw.Text(
+             _selectedLanguage == 'ar'
+                  ? "كشف حساب" :"Account statement",
+              style: pw.TextStyle(fontSize: 20),
+            ),
+          ),
+        ),
+          pw.Row(
+          mainAxisAlignment: pw.MainAxisAlignment.end,
+          children: [
+            
+            pw.Directionality(
+                textDirection:  _selectedLanguage == 'ar'
+                  ?pw.TextDirection.rtl :pw.TextDirection.ltr ,
+                child: pw.Text(_selectedLanguage == 'ar'
+                  ? "السيد : "+listPDFAll[0]['c_name'].toString() :blnc.toString())),
+          ],
+        ),
+        pw.SizedBox(
+          height: 20,
+        ),
+        pw.Row(
+          mainAxisAlignment: pw.MainAxisAlignment.end,
+          children: [
+            
+            pw.Directionality(
+                textDirection:  _selectedLanguage == 'ar'
+                  ?pw.TextDirection.rtl :pw.TextDirection.ltr ,
+                child: pw.Text(_selectedLanguage == 'ar'
+                  ? "الرصيد النهائي : "+blnc.toString() : "Final Balance :" +blnc.toString())),
+          ],
+        ),
+        pw.SizedBox(
+          height: 20,
+        ),
+      ],
+    );
+    widgets.add(title);
+    final firstrow = pw.Row(
+      mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+      children: [
+        pw.Directionality(
+           textDirection:  _selectedLanguage == 'ar'
+                  ?pw.TextDirection.rtl :pw.TextDirection.ltr ,
+          child: pw.Expanded(
+            flex: 1,
+            child: pw.Center(
+              child: pw.Text(
+               _selectedLanguage == 'ar'
+                  ?  "رقم السند" :"ID",
+                style: pw.TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+        ),
+        pw.Directionality(
+            textDirection:  _selectedLanguage == 'ar'
+                  ?pw.TextDirection.rtl :pw.TextDirection.ltr ,
+          child: pw.Expanded(
+            flex: 2,
+            child: pw.Center(
+              child: pw.Text(
+             _selectedLanguage == 'ar'
+                  ?    "التاريخ" :"Date",
+                style: pw.TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+        ),
+          pw.Directionality(
+            textDirection:  _selectedLanguage == 'ar'
+                  ?pw.TextDirection.rtl :pw.TextDirection.ltr ,
+          child: pw.Expanded(
+            flex: 2,
+            child: pw.Center(
+              child: pw.Text(
+             _selectedLanguage == 'ar'
+                  ?    "البيان" :"Type",
+                style: pw.TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+        ),
+        pw.Directionality(
+           textDirection:  _selectedLanguage == 'ar'
+                  ?pw.TextDirection.rtl :pw.TextDirection.ltr ,
+          child: pw.Expanded(
+            flex: 3,
+            child: pw.Center(
+              child: pw.Text(
+              _selectedLanguage == 'ar'
+                  ?   "له" :"To",
+                style: pw.TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+        ),
+        pw.Directionality(
+           textDirection:  _selectedLanguage == 'ar'
+                  ?pw.TextDirection.rtl :pw.TextDirection.ltr ,
+          child: pw.Expanded(
+            flex: 1,
+            child: pw.Center(
+              child: pw.Text(
+              _selectedLanguage == 'ar'
+                  ?   "منه" : "From",
+                style: pw.TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+        ),
+       pw.Directionality(
+           textDirection:  _selectedLanguage == 'ar'
+                  ?pw.TextDirection.rtl :pw.TextDirection.ltr ,
+          child: pw.Expanded(
+            flex: 1,
+            child: pw.Center(
+              child: pw.Text(
+              _selectedLanguage == 'ar'
+                  ?   "الرصيد" : "Balance",
+                style: pw.TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+    widgets.add(firstrow);
+    final firstpadding = pw.Padding(
+      padding: pw.EdgeInsets.only(top: 10),
+      child: pw.Container(
+        width: double.infinity,
+        height: 2,
+        color: PdfColors.grey,
+      ),
+    );
+    widgets.add(firstpadding);
+    final listview = pw.ListView.builder(
+      itemCount: listPDFAll.length,
+      itemBuilder: (context, index) {
+        return firstrowPDF(index, true,arabicFont);
+      },
+    );
+    widgets.add(listview);
+  
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.MultiPage(
+        maxPages: 20,
+        theme: pw.ThemeData.withFont(
+          base: arabicFont,
+        ),
+        pageFormat: PdfPageFormat.a4,
+        build: (context) => widgets, //here goes the widgets list
+      ),
+    );
+
+    Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => pdf.save(),
     );
   }
 }

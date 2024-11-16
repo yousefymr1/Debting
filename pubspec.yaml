@@ -19,13 +19,14 @@ dependencies:
   easy_autocomplete: ^1.6.0
   intl: ^0.19.0
   device_info_plus: ^3.2.4
-  
+  pdf: ^3.8.4
   shared_preferences: ^2.0.8
   google_fonts: ^4.0.4
   fluttertoast: ^8.2.8
   flutter_localizations:
     sdk: flutter
   url_launcher: ^6.3.1
+  printing: ^5.13.3
   
 dev_dependencies:
   flutter_test:
@@ -41,6 +42,7 @@ flutter:
   assets:
     - assets/a.png
     - assets/logo3.jpeg
+    - assets/fonts/Hacen_Tunisia.ttf
 flutter_icons:
   image_path: "icon/a.png" 
   android: true

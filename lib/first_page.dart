@@ -169,7 +169,7 @@ class _FirstPageState extends State<FirstPage> {
                 _buildRoundedButton(
                   context,
                   icon: Icons.account_balance_wallet,
-                  title:_selectedLanguage == 'ar' ? 'كشف حساب' : 'account statement',
+                  title:_selectedLanguage == 'ar' ? 'كشف حساب' : 'Account statement',
                   onPressed: () => Navigator.pushNamed(context, KashfHesab.id),
                 ),
                 _buildRoundedButton(
